@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+<body>
+<div style="border:1px solid #ccc;margin: 100px auto;text-align: center;width:400px">
+    <div>
+        账号:<input type="text" id="username"/>
+    </div>
+    <div>
+        密码为:<input type="password" id="password"/>
+    </div>
+    <div>
+        <button onclick="login()">登录</button>
+    </div>
+</div>
+</body>
+<script>
+    function login() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        console.log(username, password)
+//     直接使用fetch函数来使用
+        fetch("/user/login", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({username: username, password: password})   //转换成标准的字符串
+        }).then(res =>res.text())   //通过res.text的处理变成一个字符串
+            .then(res=>{   //res就是后台放回的结果
+                console.log(res)
+            if (res ==="SUCCESS") {//判断请求是否成功
+                location.href="/"
+            }else{
+                alert("登录失败")
+            }
+        })
+    }
+</script>
+</html>
