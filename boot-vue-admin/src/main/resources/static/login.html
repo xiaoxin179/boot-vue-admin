@@ -3,21 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-icons.css">
+    <style>
+        body {
+            background: url("img/back.webp") no-repeat;
+            background-size: cover;
+        }
+    </style>
 </head>
 <body>
-<div style="border:1px solid #ccc;margin: 100px auto;text-align: center;width:400px">
-    <div>
-        账号:<input type="text" id="username"/>
-    </div>
-    <div>
-        密码为:<input type="password" id="password"/>
-    </div>
-    <div>
-        <button onclick="login()">登录</button>
+<div id="app">
+    <div style="border:1px solid #ccc;margin: 200px auto;text-align: center;width:400px;height: 300px;padding: 30px 0 50px 0;border-radius: 10px;box-shadow: 0 0 10px rgba(0,0,0,.2)">
+        <div style="width:80%;margin:0 auto;">
+            <div id="font_denglu" style="font-size: 30px;font-weight: bolder">登录</div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-circle"></i></span>
+                <input id="username" type="text" class="form-control" placeholder="请输入账号" aria-label="Username" aria-describedby="basic-addon1" v-model="username">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon2"><i class="bi bi-file-earmark-lock2"></i></span>
+                <input type="password" class="form-control" placeholder="请输入密码" aria-label="Username" aria-describedby="basic-addon1" id="password" v-model="password">
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary" @click="login()" style="width:100%;margin:10px auto">登录</button>
+            </div>
+            <div style="text-align:right">
+                <a href="">没有账号，点击注册</a>
+            </div>
+        </div>
     </div>
 </div>
 </body>
+<script src="js/vue.main.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
 <script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                username: '',
+                password: ''
+            }
+        },
+        methods: {
+            login() {
+                if (!this.username||!this.password) {
+                    alert("请输入账号和密码")
+                }
+                // 发送请求给后台
+                else{
+                    fetch("/user/login", {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({username: this.username, password: this.password})   //转换成标准的字符串
+                    }).then(res => res.text())   //通过res.text的处理变成一个字符串
+                        .then(res => {   //res就是后台放回的结果
+                            console.log(res)
+                            debugger
+                            if (res === "SUCCESS") {//判断请求是否成功
+                                location.href = "/"
+                            } else {
+                                alert("登录失败")
+                            }
+                        })
+                }
+            }
+        }
+    })
+    /*
     function login() {
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
@@ -29,15 +85,17 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({username: username, password: password})   //转换成标准的字符串
-        }).then(res =>res.text())   //通过res.text的处理变成一个字符串
-            .then(res=>{   //res就是后台放回的结果
+        }).then(res => res.text())   //通过res.text的处理变成一个字符串
+            .then(res => {   //res就是后台放回的结果
                 console.log(res)
-            if (res ==="SUCCESS") {//判断请求是否成功
-                location.href="/"
-            }else{
-                alert("登录失败")
-            }
-        })
+                debugger
+                if (res === "SUCCESS") {//判断请求是否成功
+                    location.href = "/"
+                } else {
+                    alert("登录失败")
+                }
+            })
     }
+     */
 </script>
 </html>
