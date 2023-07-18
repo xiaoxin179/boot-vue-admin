@@ -5,6 +5,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.xiaoxin.entity.User;
 import com.xiaoxin.mapper.UserMapper;
+import com.xiaoxin.service.UserService;
 import com.xiaoxin.utils.JDBCUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ import java.sql.SQLException;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
     @RequestMapping(method = RequestMethod.POST, value = "/login")
     public String login(@RequestBody String userStr, HttpServletRequest request) throws SQLException {    //RquestBody可以把前台发送的json对象转换为java对象
         JSONObject parse = JSONUtil.parseObj(userStr);
@@ -32,7 +33,8 @@ public class UserController {
 //        1.通过jdbc查询
 //        User user = JDBCUtil.excuteQuery1(username, password);
 //        2.通过mybatis来查询
-        User user = userMapper.selectUser(username, password);
+        User user = userService.login(username, password);
+        System.out.println(user.toString());
         String u_username = user.getUsername();
         String u_password = user.getPassword();
         if (user != null) {
