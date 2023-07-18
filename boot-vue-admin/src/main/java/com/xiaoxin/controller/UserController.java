@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.SQLException;
 
 /**
@@ -44,7 +46,8 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/logout")
-    public void logout(HttpServletRequest request) {
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.getSession().removeAttribute("user");
+        response.sendRedirect("/login.html");
     }
 }
