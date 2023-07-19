@@ -24,6 +24,7 @@ import java.sql.SQLException;
 public class UserController {
     @Autowired
     private UserService userService;
+//    登录
     @RequestMapping(method = RequestMethod.POST, value = "/login")
     public String login(@RequestBody String userStr, HttpServletRequest request) throws SQLException {    //RquestBody可以把前台发送的json对象转换为java对象
         JSONObject parse = JSONUtil.parseObj(userStr);
@@ -52,4 +53,20 @@ public class UserController {
         request.getSession().removeAttribute("user");
         response.sendRedirect("/login.html");
     }
+//    注册
+@RequestMapping(method = RequestMethod.POST, value = "/register")
+public String register(@RequestBody String userStr, HttpServletRequest request) throws SQLException {    //RquestBody可以把前台发送的json对象转换为java对象
+    JSONObject parse = JSONUtil.parseObj(userStr);
+//        前台的请求中获取两个的值,直接从json对象中获取属性
+    String username = parse.getStr("username");
+    String password = parse.getStr("password");
+    User user = new User(username, password);
+    Boolean res = userService.register(user);
+    if (res != false) {
+        return "SUCCESS";
+    } else {
+        return "FALSE";
+    }
+    }
 }
+

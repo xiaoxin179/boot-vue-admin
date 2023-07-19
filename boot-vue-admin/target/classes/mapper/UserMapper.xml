@@ -2,9 +2,16 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--命名空间就是mapper接口的路径，resultType就是所涉及到的实体类的路径,对于结果集的解释，因为查询之后须要返回的是一个对象，所以需要告诉mybatis放回的结果集是什么-->
+<!--命名空间就是mapper接口的路径，resultType就是所涉及到的实体类的路径,对于结果集的解释，因为查询之后须要返回的是一个对象，所以需要告诉mybatis放回的结果集是什么,也就是结果集，就是这个查询最后返回的数据类新-->
 <mapper namespace="com.xiaoxin.mapper.UserMapper">
+<!--    返回值为bool，所以不需要返回-->
+    <insert id="save" >
+        insert into user (username,password) values (#{username}, #{password})
+    </insert>
     <select id="selectUser" resultType="com.xiaoxin.entity.User">
         select * from user where username=#{username} and password=#{password} ;
+    </select>
+    <select id="selectUserByUsername" resultType="com.xiaoxin.entity.User">
+        select * from user where username=#{username}
     </select>
 </mapper>

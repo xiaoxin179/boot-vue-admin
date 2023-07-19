@@ -30,7 +30,7 @@
                 <input type="password" class="form-control" placeholder="确认密码" aria-label="Username" aria-describedby="basic-addon1" id="confirm" v-model="confirm">
             </div>
             <div>
-                <button type="button" class="btn btn-success" @click="register()" style="width:100%;margin:10px auto">登录</button>
+                <button type="button" class="btn btn-success" @click="register()" style="width:100%;margin:10px auto">注 册</button>
             </div>
             <div style="text-align:right">
                 <a href="login.html">返回登录</a>
@@ -74,7 +74,7 @@
                             if (res === "SUCCESS") {//判断请求是否成功
                                 location.href = "/"
                             } else {
-                                alert("登录失败")
+                                alert("注册失败")
                             }
                         });
                 }
