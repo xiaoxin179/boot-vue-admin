@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>注册</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-icons.css">
     <style>
         body {
             background: url("img/back.webp") no-repeat;
@@ -39,8 +37,7 @@
     </div>
 </div>
 </body>
-<script src="js/vue.main.js"></script>
-<script src="js/bootstrap.bundle.min.js"></script>
+<script src="./js/resourses.js"></script>
 <script>
     new Vue({
         el: '#app',
@@ -54,10 +51,10 @@
         methods: {
             register() {
                 if (!this.username||!this.password||!this.confirm) {
-                    alert("请输入账号和密码")
+                    $.message({message:"请按照要求输入完整的信息",type:"success"})
                 }
                 else if (this.password !== this.confirm) {
-                    alert("两次输入的密码不一致")
+                    $.message({message:"两次输入的密码不一致",type:"success"})
                 }
                 // 发送请求给后台
                 else {
@@ -66,15 +63,19 @@
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({username: this.username, password: this.password})   //转换成标准的字符串
-                    }).then(res => res.text())   //通过res.text的处理变成一个字符串
+                        body: JSON.stringify({username: this.username, password: this.password})   //转换成标准的字符
+                    }).then(res => res.json())   //通过res.text的处理变成一个字符串，在这里直接把后台返回的数据解析成文本了。前台通过fetch获取的数据需要改成json来获取
                         .then(res => {   //res就是后台放回的结果
                             console.log(res)
-                            debugger
-                            if (res === "SUCCESS") {//判断请求是否成功
-                                location.href = "/"
+                            // debugger
+                            if (res.code === "200") {//判断请求是否成功
+                                $.message({message:"注册成功",type:"success"})
+                                // 设置延时函数
+                                setTimeout(() =>{
+                                    location.href = "/login.html"
+                                },1000)
                             } else {
-                                alert("注册失败")
+                                $.message({message:res.msg, type:'error'})
                             }
                         });
                 }

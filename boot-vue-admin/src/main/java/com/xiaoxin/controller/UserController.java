@@ -3,6 +3,7 @@ package com.xiaoxin.controller;
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.xiaoxin.common.Result;
 import com.xiaoxin.entity.User;
 import com.xiaoxin.mapper.UserMapper;
 import com.xiaoxin.service.UserService;
@@ -26,7 +27,7 @@ public class UserController {
     private UserService userService;
 //    登录
     @RequestMapping(method = RequestMethod.POST, value = "/login")
-    public String login(@RequestBody String userStr, HttpServletRequest request) throws SQLException {    //RquestBody可以把前台发送的json对象转换为java对象
+    public Result<User> login(@RequestBody String userStr, HttpServletRequest request) throws SQLException {    //RquestBody可以把前台发送的json对象转换为java对象
         JSONObject parse = JSONUtil.parseObj(userStr);
 //        前台的请求中获取两个的值,直接从json对象中获取属性
         String username = parse.getStr("username");
@@ -42,10 +43,10 @@ public class UserController {
 //            如果不为空就直接把user存入session
             request.getSession().setAttribute("user",user);
             if (u_password.equals(password) && u_username.equals(username)) {
-                return "SUCCESS";
+                return Result.success(user);
             }
         }
-        return "FALSE";
+        return Result.error("账号或者密码错误");
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/logout")
@@ -55,7 +56,7 @@ public class UserController {
     }
 //    注册
 @RequestMapping(method = RequestMethod.POST, value = "/register")
-public String register(@RequestBody String userStr, HttpServletRequest request) throws SQLException {    //RquestBody可以把前台发送的json对象转换为java对象
+public Result<Void> register(@RequestBody String userStr, HttpServletRequest request)  {    //RquestBody可以把前台发送的json对象转换为java对象
     JSONObject parse = JSONUtil.parseObj(userStr);
 //        前台的请求中获取两个的值,直接从json对象中获取属性
     String username = parse.getStr("username");
@@ -63,9 +64,9 @@ public String register(@RequestBody String userStr, HttpServletRequest request) 
     User user = new User(username, password);
     Boolean res = userService.register(user);
     if (res != false) {
-        return "SUCCESS";
+        return Result.success();
     } else {
-        return "FALSE";
+        return Result.error("注册失败");
     }
     }
 }
