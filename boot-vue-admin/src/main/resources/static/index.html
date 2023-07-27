@@ -3,15 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
+    <script src="./js/resourses.js"></script>
 </head>
 <body>
-<h1>首页</h1>
-<div><button onclick="logout()">退出登录</button></div>
-</body>
+<div id="app">
+
+    <!-- 头部-->
+    <script src="js/head.js"></script>
+
+    <!-- 主体 -->
+        <div style="display: flex; margin: 5px;">
+
+        <!-- 菜单栏-->
+        <script src="js/nav.js"></script>
+
+        <!-- 数据展示区域 -->
+        <div style="flex: 1; padding: 10px">
+            欢迎你！{{ user.username  }}
+        </div>
+    </div>
+</div>
+
 <script>
-    function logout() {
-        fetch("user/logout")
-        location.href = "/user/logout";
-    }
+
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+            }
+        },
+        created() {
+
+        },
+        methods: {
+
+        }
+    })
 </script>
+</body>
 </html>

@@ -5,4 +5,6 @@ document.write(`
 <script src="js/message.min.js"></script>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/bootstrap-icons.css">
+<link rel="stylesheet" href="css/bootstrap-icons.css">
+<link rel="stylesheet" href="css/global.css">
 `)

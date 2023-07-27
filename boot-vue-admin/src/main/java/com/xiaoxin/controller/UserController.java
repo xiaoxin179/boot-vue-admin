@@ -27,6 +27,7 @@ public class UserController {
     private UserService userService;
 //    登录
     @RequestMapping(method = RequestMethod.POST, value = "/login")
+//    在这里springMVC可以把前台传递过来的数据转换成java对象,所以一般情况下在controller层的代码中很多时候不直接写对象
     public Result<User> login(@RequestBody String userStr, HttpServletRequest request) throws SQLException {    //RquestBody可以把前台发送的json对象转换为java对象
         JSONObject parse = JSONUtil.parseObj(userStr);
 //        前台的请求中获取两个的值,直接从json对象中获取属性

@@ -16,7 +16,7 @@ public class AuthFilter implements Filter {
 //   在这里如果对请求也做过滤，那么就没办法发送亲求,同时请求的资源也会放行
     private static final String[] WHITE_URLS = {"/login.html", "/register.html", "/user/login", "/user/register"};
 //    文件后缀加载白名单
-    private static final String[] FILE_SUFFIX = {"jpeg", "jpg","png","gif","bmp", "webp", "css","js", "woff", "woff2"};
+    private static final String[] FILE_SUFFIX = {"jpeg", "jpg","png","gif","bmp", "webp", "css","js", "woff", "woff2","ico"};
 
 
     @Override
