@@ -73,15 +73,32 @@ public class UserController {
             return Result.error("注册失败");
         }
     }
+
     @GetMapping("/all")
 //    设置为非必须参数
-    public Result<List<User>> getAllUsers( @RequestParam(required = false)String name, @RequestParam(required = false) String phone,@RequestParam(required = false)String email) {
-        return Result.success(userService.getAllUsers(name,phone,email));
+    public Result<List<User>> getAllUsers(@RequestParam(required = false) String name, @RequestParam(required = false) String phone, @RequestParam(required = false) String email) {
+        return Result.success(userService.getAllUsers(name, phone, email));
     }
 
+    //新增接口
     @PostMapping
     public Result<Void> add(@RequestBody User user) {
         userService.save(user);
+        return Result.success();
+    }
+
+    //    修改用户信息接口
+    @PutMapping
+    public Result<Void> update(@RequestBody User user) {
+        userService.update(user);
+        return Result.success();
+    }
+
+    //    删除用户信息
+    @DeleteMapping("{id}")
+//    可以把前端接口中id直接解析成java中的对象
+    public Result<Void> deleteById(@PathVariable Integer id) {
+        userService.deleteById(id);
         return Result.success();
     }
 }

@@ -11,6 +11,40 @@
     <insert id="insert">
         insert into user ( username, password, name, age, birth, account, email, role, phone) values(#{username},#{password},#{name},#{age},#{birth},#{account},#{email},#{role},#{phone})
     </insert>
+    <update id="update">
+        update user
+        <set>
+            <if test="username!=null and username!=''">
+                username=#{username}
+            </if>
+            <if test="name!=null and name!=''">
+                `name`=#{name}
+            </if>
+            <if test="age!=null and age!=''">
+                age=#{age}
+            </if>
+            <if test="birth!=null">
+                birth=#{birth}
+            </if>
+            <if test="account!=null and account!=''">
+                account=#{account}
+            </if>
+            <if test="email!=null and email!=''">
+                email=#{email}
+            </if>
+            <if test="role!=null and role!=''">
+                role=#{role}
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone=#{phone}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteById">
+        delete from user
+        where id=#{id}
+    </delete>
     <select id="selectUser" resultType="com.xiaoxin.entity.User">
         select id,username,password from user where username=#{username} and password=#{password} ;
     </select>

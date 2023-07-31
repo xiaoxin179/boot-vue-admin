@@ -196,6 +196,7 @@
       },
       handleEdit(row) {
         // Object.assign(this.form, row)
+        // 把他的所有的东西东复制给他
         this.form = JSON.parse(JSON.stringify(row))
         this.toggle()
       },

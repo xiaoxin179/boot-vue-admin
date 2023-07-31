@@ -17,4 +17,8 @@ public interface UserMapper {
     List<User> getAllUsers(@Param("name") String name,@Param("phone")String phone,@Param("email")String email);
 
     void insert(User user);
+
+    void update(User user);
+
+    void deleteById(Integer id);
 }
