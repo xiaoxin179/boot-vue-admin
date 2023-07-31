@@ -16,6 +16,7 @@ public class Result<T> {
 
     public static <T> Result <T> success(T data) {
         Result<T> res = new Result<>();
+        res.setData(data);
         res.setCode("200");
         return res;
     }

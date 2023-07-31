@@ -18,6 +18,13 @@ import java.sql.SQLException;
 @ControllerAdvice
 public class Exceptionhandler {
     private static Logger logger = LoggerFactory.getLogger(Exceptionhandler.class);
+//    自定义异常
+@ExceptionHandler(CustomerException.class)
+@ResponseBody
+public Result CusException(CustomerException e) {
+        e.printStackTrace();
+        return Result.error(e.getMessage());
+}
 
     //    尝试能否捕捉到sql的错误
     @ExceptionHandler(SQLException.class)

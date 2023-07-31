@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author:XIAOXIN
@@ -25,7 +26,8 @@ import java.sql.SQLException;
 public class UserController {
     @Autowired
     private UserService userService;
-//    登录
+
+    //    登录
     @RequestMapping(method = RequestMethod.POST, value = "/login")
 //    在这里springMVC可以把前台传递过来的数据转换成java对象,所以一般情况下在controller层的代码中很多时候不直接写对象
     public Result<User> login(@RequestBody String userStr, HttpServletRequest request) throws SQLException {    //RquestBody可以把前台发送的json对象转换为java对象
@@ -42,7 +44,7 @@ public class UserController {
         String u_password = user.getPassword();
         if (user != null) {
 //            如果不为空就直接把user存入session
-            request.getSession().setAttribute("user",user);
+            request.getSession().setAttribute("user", user);
             if (u_password.equals(password) && u_username.equals(username)) {
                 return Result.success(user);
             }
@@ -55,20 +57,32 @@ public class UserController {
         request.getSession().removeAttribute("user");
         response.sendRedirect("/login.html");
     }
-//    注册
-@RequestMapping(method = RequestMethod.POST, value = "/register")
-public Result<Void> register(@RequestBody String userStr, HttpServletRequest request)  {    //RquestBody可以把前台发送的json对象转换为java对象
-    JSONObject parse = JSONUtil.parseObj(userStr);
+
+    //    注册
+    @RequestMapping(method = RequestMethod.POST, value = "/register")
+    public Result<Void> register(@RequestBody String userStr, HttpServletRequest request) {    //RquestBody可以把前台发送的json对象转换为java对象
+        JSONObject parse = JSONUtil.parseObj(userStr);
 //        前台的请求中获取两个的值,直接从json对象中获取属性
-    String username = parse.getStr("username");
-    String password = parse.getStr("password");
-    User user = new User(username, password);
-    Boolean res = userService.register(user);
-    if (res != false) {
-        return Result.success();
-    } else {
-        return Result.error("注册失败");
+        String username = parse.getStr("username");
+        String password = parse.getStr("password");
+        User user = new User(username, password);
+        Boolean res = userService.register(user);
+        if (res != false) {
+            return Result.success();
+        } else {
+            return Result.error("注册失败");
+        }
     }
+    @GetMapping("/all")
+//    设置为非必须参数
+    public Result<List<User>> getAllUsers( @RequestParam(required = false)String name, @RequestParam(required = false) String phone,@RequestParam(required = false)String email) {
+        return Result.success(userService.getAllUsers(name,phone,email));
+    }
+
+    @PostMapping
+    public Result<Void> add(@RequestBody User user) {
+        userService.save(user);
+        return Result.success();
     }
 }
 
